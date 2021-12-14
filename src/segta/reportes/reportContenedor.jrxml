@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3b1be8a7-eb9f-47fb-9b3d-9b5a5274b284">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="pLote" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     tambor.`numero` AS tambor_numero,
+     tambor.`bruto` AS tambor_bruto,
+     tambor.`tara` AS tambor_tara,
+     tambor.`neto` AS tambor_neto,
+     IF(LENGTH(tambor.senasanueva)>0, tambor.senasanueva, tambor.senasa) AS tambor_senasa,
+     color.`color` AS color_color,
+     lote.`despacho` AS lote_despacho,
+     lote.`remito` AS lote_remito,
+     lote.lote as lote_nombre,
+     tambor.estadoTambor as tambor_est
+FROM
+     `color` color RIGHT OUTER JOIN `tambor` tambor ON color.`idColor` = tambor.`idColor`
+      INNER JOIN `lote` lote ON tambor.`idLote` = lote.`idLote`
+Where tambor.idLote=$P{pLote}]]>
+	</queryString>
+	<field name="tambor_numero" class="java.lang.Integer"/>
+	<field name="tambor_bruto" class="java.lang.Float"/>
+	<field name="tambor_tara" class="java.lang.Float"/>
+	<field name="tambor_neto" class="java.lang.Float"/>
+	<field name="tambor_senasa" class="java.lang.String"/>
+	<field name="color_color" class="java.lang.String"/>
+	<field name="lote_despacho" class="java.sql.Date"/>
+	<field name="lote_remito" class="java.lang.String"/>
+	<field name="lote_nombre" class="java.lang.String"/>
+	<field name="tambor_est" class="java.lang.String"/>
+	<variable name="tambor_numero_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{tambor_numero}]]></variableExpression>
+	</variable>
+	<variable name="tambor_neto_1" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{tambor_neto}]]></variableExpression>
+	</variable>
+	<variable name="tambor_bruto_1" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{tambor_bruto}]]></variableExpression>
+	</variable>
+	<variable name="tambor_bruto_2" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{tambor_bruto}]]></variableExpression>
+	</variable>
+	<variable name="tambor_numero_2" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{tambor_numero}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="8eed7c2d-192d-49b3-9375-bb46d6d2d5ee" style="Title" x="141" y="0" width="411" height="62"/>
+				<textElement verticalAlignment="Middle">
+					<font size="36" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Tambores por Contenedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="acdd914d-4283-4f76-a444-9a1a95bf0cd9" style="SubTitle" x="508" y="62" width="44" height="22"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Segta]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="746f5ccb-5312-4bdb-8379-09ae7945fcf5" x="-12" y="-20" width="219" height="154"/>
+				<imageExpression><![CDATA["./logoOriginal.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="bbe0ac55-f8a8-4478-9340-7ceb9c8f6455" style="Column header" mode="Transparent" x="104" y="69" width="92" height="15" forecolor="#736343" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[CONTENEDOR:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6258b60f-ac99-4814-a289-48f78bf6ca0c" style="Column header" x="143" y="84" width="53" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="46b7ec8c-e15a-4ce1-b9e9-e3adc934672b" style="Detail" x="198" y="84" width="84" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{lote_despacho}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b8618ae6-9f48-42c9-b60c-534245f38e2c" style="Column header" x="141" y="99" width="55" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[REMITO:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="7a961a06-8921-406d-898e-0823c02dcfae" style="Detail" x="198" y="99" width="84" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{lote_remito}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="b8618ae6-9f48-42c9-b60c-534245f38e2c" style="Column header" x="297" y="69" width="90" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[N° TAMBORES:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6258b60f-ac99-4814-a289-48f78bf6ca0c" style="Column header" x="297" y="98" width="90" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[TOTAL NETO:]]></text>
+			</staticText>
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement uuid="b0b0fe34-6e00-4210-acb4-1253a58e5bf1" mode="Transparent" x="389" y="98" width="100" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{tambor_neto_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6258b60f-ac99-4814-a289-48f78bf6ca0c" style="Column header" x="297" y="83" width="90" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[TOTAL BRUTO:]]></text>
+			</staticText>
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement uuid="ce18b9b1-7575-464f-af87-db270169c85f" mode="Transparent" x="389" y="84" width="100" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{tambor_bruto_2}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement uuid="b359eaef-21c9-4c99-a2cd-06496c61bf4e" mode="Transparent" x="389" y="69" width="100" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{tambor_numero_2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="deef88d5-8db1-48f6-8fa4-6a9aeaac025f" mode="Transparent" x="197" y="69" width="85" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lote_nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement uuid="0390464c-63d1-41c2-acd8-3fe4e8656f84" positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="2349b7a2-1c10-4df5-8d27-cd9acd78d25f" style="Column header" mode="Transparent" x="0" y="0" width="71" height="15" forecolor="#736343" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="71d9d164-6186-4e78-84a1-26ab34ba9c4c" style="Column header" x="432" y="0" width="120" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Senasa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0aae585c-aae1-4618-9241-d2d574a20b79" style="Column header" x="143" y="0" width="71" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Bruto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="56d4dc4e-a790-49c1-ac3b-dda2a2de4ad6" style="Column header" x="215" y="0" width="71" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Tara]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="26e5677b-77f5-41de-a51a-b732b006523c" style="Column header" x="287" y="0" width="71" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Neto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ba282267-8ede-401b-9ab1-b762ea2be33c" style="Column header" x="72" y="0" width="71" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Color]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="df5b35d1-aa49-4ee3-b0aa-617695de2eb8" mode="Transparent" x="358" y="0" width="74" height="15" forecolor="#736343" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement uuid="a38f65e8-98ef-4247-8e23-9ce62b514305" style="Row" mode="Opaque" x="0" y="0" width="555" height="15"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="7d052980-2a0d-42e5-89bd-adb8a8512d2b" style="Detail" x="1" y="0" width="71" height="15"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{tambor_numero}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="5c4e44cf-86f4-4b43-b79f-76c661548756" style="Detail" x="432" y="0" width="120" height="15"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{tambor_senasa}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="a6016ea9-691a-40f9-9f4d-e7da9661041c" style="Detail" x="143" y="0" width="71" height="15"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{tambor_bruto}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="5ca04abe-9fa0-4862-9ef2-f724effb987b" style="Detail" x="215" y="0" width="71" height="15"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{tambor_tara}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="33171e09-8a84-42f6-8ef3-4190426b4df9" style="Detail" x="287" y="0" width="71" height="15"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{tambor_neto}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="53b0f8f5-7eb3-4a0c-9a2e-3f63e85b5500" style="Detail" x="72" y="0" width="71" height="15"/>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{color_color}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="2ae0da72-1c72-4b7a-8459-eb07ff617a4e" mode="Transparent" x="358" y="0" width="74" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tambor_est}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement uuid="3c196c66-5067-4637-90c5-b657cb36f192" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="9d36b559-6338-48bb-9b76-a71b1b835083" mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="4b288289-5e72-4784-810d-1c3eed5f8e86" style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="e9e56dac-16d6-4f1b-8ab5-e805fe5c8d2f" style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="a2e1a050-b640-42a3-851a-c7119deb6ba7" style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

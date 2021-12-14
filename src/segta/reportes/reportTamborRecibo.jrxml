@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fffa8c47-4b35-49f6-acda-8cf758f78c9f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="desc" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     descargas.`idDescargas` AS num_descargas,
+     sum(tambor.`neto`) AS tambor_neto,
+     count(tambor.`numero`) AS tambor_cant,
+     sum(if (tambor.estadoTambor='cambio', 1,0)) as tambor_Cambio,
+     descargas.`fecha` AS descargas_fecha,
+     proveedor.`razonSocial` AS proveedor_razonSocial    
+FROM
+     `descargas` descargas INNER JOIN `tambor` tambor ON descargas.`idDescargas` = tambor.`idDescarga`
+     INNER JOIN `proveedor` proveedor ON tambor.`idProveedor` = proveedor.`idProveedor`
+	
+WHERE descargas.`idDescargas`=$P{desc} 
+
+GROUP BY descargas.`idDescargas`, descargas.`fecha` , proveedor.`razonSocial`]]>
+	</queryString>
+	<field name="num_descargas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tambor_neto" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tambor_cant" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tambor_Cambio" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descargas_fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="proveedor_razonSocial" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="tambor_neto_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{tambor_neto}]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.String"/>
+	<variable name="tambor_neto_2" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{tambor_neto}]]></variableExpression>
+	</variable>
+	<variable name="tambor_cant_1" class="java.lang.Long" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{tambor_cant}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="114" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4d98d874-d59a-46a2-a226-58479db71c83" style="Title" x="154" y="0" width="371" height="45"/>
+				<textElement verticalAlignment="Middle">
+					<font size="36" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Recibo de Tambores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79ce19b5-9b01-4725-b03d-09829cd027af" style="SubTitle" x="260" y="45" width="252" height="22"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Segta]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="338abd49-8ce7-4d4a-bbc0-4ce3ea823fdc" stretchType="RelativeToTallestObject" x="1" y="0" width="126" height="108"/>
+				<imageExpression><![CDATA["./logoOriginal.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="29" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="32cf886d-4596-41eb-92f0-6cf20f8934d5" x="54" y="0" width="73" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descargas_fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="551bf83e-9e72-47d4-bb26-dab6f6a71440" style="Column header" x="1" y="0" width="53" height="20" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6ac562e9-fef9-429e-b783-b7576b647e0f" style="Column header" x="127" y="0" width="118" height="20" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[N° DE DESCARGA:]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="a2c6fbf7-7c30-473c-9b0f-bbad87710c19" mode="Transparent" x="245" y="0" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{num_descargas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="19" splitType="Stretch">
+			<line>
+				<reportElement uuid="008a2f8a-dfec-4f4d-ac78-c1efc5e86f69" positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="cf00d43f-46c0-4ea7-be29-e5990b0fd1dd" style="Column header" x="447" y="1" width="65" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[Neto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="cbbbdc0e-2368-4de7-9e62-4ab575dddc50" style="Column header" x="193" y="0" width="67" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[Tambores]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0eb49625-03e8-4e6f-b0bf-9e38d0dc76d9" style="Column header" x="1" y="1" width="146" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[Apicultor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="829a2d4d-bc3e-4f2a-98e6-d6769b1bba16" style="Column header" x="296" y="1" width="129" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[Tambores p/ Cambio]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<frame>
+				<reportElement uuid="55ed720e-e3f2-47b4-873a-ded6c8e2936d" style="Row" mode="Opaque" x="0" y="0" width="555" height="15"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="5f476ad5-9e70-450a-90b0-fbc8d974a671" style="Detail" x="447" y="0" width="65" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{tambor_neto}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="9785e967-22c0-4590-a9cc-d598ae0ca710" style="Detail" x="208" y="-1" width="67" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{tambor_cant}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="c6f8b99e-293d-4f29-adf8-f88c5c510c1c" style="Detail" x="1" y="-1" width="146" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{proveedor_razonSocial}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="cf4cb6a2-33ac-422c-acc7-2532d919ae41" style="Detail" x="329" y="0" width="67" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{tambor_Cambio}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement uuid="0099924c-0454-4869-84ab-48c8fbec31a6" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="6e045a63-04cb-49b6-b66b-0956e3f70bf7" style="Column header" x="105" y="6" width="179" height="20" forecolor="#736343"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[TAMBORES DESCARGADOS: ]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="d8206a69-a13f-47aa-8298-3254f6e89a79" mode="Transparent" x="447" y="6" width="65" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{tambor_neto_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="fa607ce2-c0ca-4aae-a003-4e0efd4165bf" style="Column header" mode="Transparent" x="357" y="6" width="90" height="20" forecolor="#736343" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[NETO TOTAL:]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement uuid="c1af7d3a-b704-4583-9cc9-16139f45a1b0" mode="Transparent" x="284" y="6" width="61" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{tambor_cant_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="452bef45-b59d-4127-b62c-5a456b6e1ecb" mode="Opaque" x="-11" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="1951b071-bc3d-4c97-88ea-244751aa7195" style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="75baf261-63e1-4e41-89f3-8cd8a1b58484" style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="b9ef7a09-443a-4667-a453-264b4a9a5aba" style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

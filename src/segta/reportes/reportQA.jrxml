@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b92206f1-3e12-4ace-80e8-3b8b5aa2b172">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="pLote" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    netodespachado AS neto,
+     taradespachado AS tara,
+     brutodespachado AS bruto,
+     cl.`razonSocial` AS BUYER,
+     l.`ordendecompra` AS PO,
+     l.numerodespacho AS BATCH,
+     l.`consigntario` AS CONS,
+     l.`puertoorigen` AS PORT,
+     l.`lugardeentrega` AS PLACE,
+     l.`buque` AS CARGO,
+     l.`prescinto` AS SEAL,
+     l.`numeroBL` AS CONTAINER,
+     count(idTambor) AS QTY,
+     CONCAT(CONCAT(" DRUMS OF ARGENTINE ",UPPER(SUBSTR(lc.`color`,1,INSTR(lc.`color`,'(')-1)))," HONEY") AS DESCR,
+     CONCAT(CONCAT("PURE HOMOGENIZED ",UPPER(SUBSTR(lc.`color`,1,INSTR(lc.`color`,'(')-1)))," HONEY") AS COMMODITY
+    
+FROM
+     `lote` l INNER JOIN `tambor` tambor ON l.`idLote` = tambor.`idLote`
+     INNER JOIN `lotecontrato` lc ON l.`idlotecontrato` = lc.`idlotecontrato`
+     INNER JOIN `contrato` c ON lc.`idContrato` = c.`idContrato`
+     INNER JOIN `cliente` cl ON c.`idCliente` = cl.`idCliente`
+WHERE
+     l.idLote = $P{pLote}
+GROUP BY
+     BUYER,
+     PO,
+     BATCH,
+     CONS,
+     PORT,
+     PLACE,CARGO,SEAL,CONTAINER,COMMODITY,DESCR,NETO,TARA,BRUTO]]>
+	</queryString>
+	<field name="neto" class="java.lang.Float"/>
+	<field name="tara" class="java.lang.Float"/>
+	<field name="bruto" class="java.lang.Float"/>
+	<field name="BUYER" class="java.lang.String"/>
+	<field name="PO" class="java.lang.String"/>
+	<field name="BATCH" class="java.lang.String"/>
+	<field name="CONS" class="java.lang.String"/>
+	<field name="PORT" class="java.lang.String"/>
+	<field name="PLACE" class="java.lang.String"/>
+	<field name="CARGO" class="java.lang.String"/>
+	<field name="SEAL" class="java.lang.String"/>
+	<field name="CONTAINER" class="java.lang.String"/>
+	<field name="QTY" class="java.lang.Long"/>
+	<field name="DESCR" class="java.lang.String"/>
+	<field name="COMMODITY" class="java.lang.String"/>
+	<title>
+		<band height="137" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="47f5950a-7de0-402d-b4c3-ad8693384e7d" style="Title" mode="Transparent" x="122" y="0" width="432" height="35" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Times New Roman" size="22" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[QUALITY AND SAFETY CERTIFICATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="85c08dbe-cdb9-4730-bb6c-2e3d24ba1efb" style="SubTitle" x="488" y="35" width="44" height="22"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Segta]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="746f5ccb-5312-4bdb-8379-09ae7945fcf5" x="-21" y="-18" width="219" height="154"/>
+				<imageExpression><![CDATA["./logoOriginal.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="66ce500a-7327-494c-9e11-a8f908d0c272" x="135" y="89" width="353" height="21"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[+(54) 91128388950	info@gasrroni.com	www.gasrroni.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66ce500a-7327-494c-9e11-a8f908d0c272" x="113" y="68" width="423" height="21"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Camino de Circunvalación y Calle 113 Navarro (6605) Buenos Aires, Argentina]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="383" splitType="Stretch">
+			<frame>
+				<reportElement uuid="8c877b91-4f70-4e48-8449-4f1c36dbe882" x="11" y="0" width="525" height="377"/>
+				<rectangle>
+					<reportElement uuid="d7c7f2cf-0d66-4179-b765-b64f7506840d" x="166" y="126" width="359" height="248"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="f7c6bb4e-a3f2-458c-87cf-712e649c88ba" x="166" y="1" width="359" height="125"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="58cac7b1-bc4c-420c-b16a-923a5a761a4a" x="1" y="126" width="165" height="248"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="324" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[GROSS WEIGHT:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="274" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DESCRIPTION OF CARGO:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="250" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SEAL NUMBER:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="b6de5cfb-7cf8-4b62-9640-933da43e4665" x="204" y="274" width="311" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DESCR}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="7ae1da73-84ae-4f8e-bbb1-e4a970e64b5a" mode="Transparent" x="176" y="274" width="28" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{QTY}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="f3a72b3b-64db-4987-89a0-b34a0ef9f3ca" mode="Transparent" x="176" y="349" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tara}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="a0c2254a-b286-4a27-9924-7865bdd3f07a" mode="Transparent" x="176" y="299" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{neto}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="5eb17e8a-a1d1-4f2c-8c58-852a8ce779a1" mode="Transparent" x="176" y="324" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bruto}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="75c8ea43-cf6d-4105-afc9-f2dc04124b6b" mode="Transparent" x="176" y="250" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SEAL}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="3b6e0d08-17b8-4a02-b522-36f04dcf844c" mode="Transparent" x="176" y="226" width="339" height="24" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CONTAINER}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="2e018075-9365-4a1c-b2b0-c08b31338b34" mode="Transparent" x="176" y="201" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CARGO}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="79597a58-c54e-49d6-8dd4-f19d081c2fc6" mode="Transparent" x="176" y="176" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PLACE}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="45b7d731-4fce-444d-a03e-9b7e3df48145" mode="Transparent" x="176" y="151" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PORT}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="1a63400a-256f-4c4c-8e1c-5bbcf2fc6ac9" mode="Transparent" x="176" y="125" width="339" height="26" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CONS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="176" y="100" width="339" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ARGENTINA]]></text>
+				</staticText>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="a8a437c7-9e0d-4eeb-b922-553e257ba5b9" mode="Transparent" x="176" y="75" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{COMMODITY}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="c917ba87-c4d7-4a30-8beb-b9fcfeb357b5" mode="Transparent" x="176" y="50" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{BATCH}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="b710b05d-9311-4265-8e5b-e45d20ea7758" mode="Transparent" x="176" y="25" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{PO}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement uuid="2f44d8b4-1f0e-4dcc-9929-c7aefe049f31" x="1" y="1" width="165" height="125"/>
+				</rectangle>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="4e46535c-65e5-4f68-a13d-4fca61a4ac09" mode="Transparent" x="176" y="1" width="339" height="25" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{BUYER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="1" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BUYER:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="25" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[PO ORDER:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="75" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[COMMODITY:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="50" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[BATCH NUMBER:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="100" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ORIGIN:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="201" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CARGO VESSEL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="151" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[PORT OF LOADING:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="176" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[PLACE OF DELIVERY:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="126" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CONSIGNEE:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="226" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CONTAINER NUMBER:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="349" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TARE:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="4fe53865-c75b-4085-bbb5-a1046db3f5d6" x="12" y="299" width="164" height="25"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NET WEIGHT:]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="233" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ca7cdc1f-2946-4464-b544-80560f0cefc1" x="12" y="0" width="524" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="11"/>
+				</textElement>
+				<text><![CDATA[The quality of all products is ensured by our stringent internal quality control system. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5452940a-8745-4972-bf72-e9debfe14a51" mode="Transparent" x="12" y="30" width="524" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[This is achieved by:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5452940a-8745-4972-bf72-e9debfe14a51" mode="Transparent" x="12" y="45" width="524" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[- Employee education and training in order to increase the application of manufacturing practices.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5452940a-8745-4972-bf72-e9debfe14a51" mode="Transparent" x="12" y="60" width="524" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[- Inspection and selection of high quality honeys.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5452940a-8745-4972-bf72-e9debfe14a51" mode="Transparent" x="12" y="15" width="524" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[We ensure product traceability through all stages of production, processing and distribution.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5452940a-8745-4972-bf72-e9debfe14a51" mode="Transparent" x="12" y="75" width="524" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[- Rigorous laboratory test carried out in Germany.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5452940a-8745-4972-bf72-e9debfe14a51" mode="Transparent" x="12" y="90" width="524" height="15" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[- Final QC check before shipping.]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="9f75cf3a-3ece-4fd3-bbad-18e4f486029d" mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="e6e63059-7956-478b-9631-2a9e4fa393c2" style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="481c2f4d-481b-4b93-ab04-0ebe753f63a1" style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="ec1d3cb3-d26c-45ff-aaa2-569c32b884bc" style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>

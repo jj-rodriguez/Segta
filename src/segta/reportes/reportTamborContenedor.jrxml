@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportTamborSector" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="93fe0d5e-4c95-43b9-9d14-130b56541880">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     	tambor.idLote,
+	lote.lote,
+	count(*) as cantidad
+FROM `tambor` tambor
+LEFT OUTER JOIN `lote` lote ON tambor.`idLote` = lote.`idLote`
+WHERE tambor.estado ='loteado'
+GROUP BY  idlote, lote
+ORDER by lote]]>
+	</queryString>
+	<field name="idLote" class="java.lang.Integer"/>
+	<field name="lote" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.Long"/>
+	<variable name="sector_nombre_1" class="java.lang.Integer" resetType="Group" resetGroup="sector_nombre" calculation="Count">
+		<variableExpression><![CDATA[$F{lote}]]></variableExpression>
+	</variable>
+	<group name="sector_nombre">
+		<groupExpression><![CDATA[$F{lote}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<frame>
+					<reportElement uuid="f03fd021-3848-47d0-8a9f-2378ddba548b" mode="Opaque" x="-21" y="7" width="597" height="24" forecolor="#B89F7D" backcolor="#F2EBDF"/>
+					<rectangle>
+						<reportElement uuid="8189586a-5b7d-4f27-862c-2c43ef436b42" mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#736343"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement uuid="b8ba8983-09dd-4858-80fb-59694956f53d" style="SubTitle" x="201" y="0" width="159" height="24" forecolor="#736343"/>
+						<textElement>
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement uuid="f104f62d-12be-45f8-9fc3-2cfa087b93ef" style="SubTitle" x="370" y="0" width="129" height="22"/>
+						<textElement textAlignment="Right">
+							<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+						</textElement>
+						<text><![CDATA[Total Tambores:]]></text>
+					</staticText>
+					<staticText>
+						<reportElement uuid="f104f62d-12be-45f8-9fc3-2cfa087b93ef" style="SubTitle" mode="Transparent" x="59" y="0" width="142" height="22" forecolor="#736343" backcolor="#FFFFFF"/>
+						<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+							<font fontName="Arial" size="18" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<text><![CDATA[CONTENEDOR:]]></text>
+					</staticText>
+					<textField>
+						<reportElement uuid="7865c50c-f6f6-4e4e-a57f-1a111495d2f2" mode="Transparent" x="502" y="0" width="75" height="24" forecolor="#736343" backcolor="#FFFFFF"/>
+						<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+							<font fontName="Times New Roman" size="18" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+							<paragraph lineSpacing="Single"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="658acc0f-4af2-4f53-b886-6b9ecd2cf7ff" style="Title" x="123" y="0" width="405" height="48"/>
+				<textElement verticalAlignment="Middle">
+					<font size="36" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Tambores por contenedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f104f62d-12be-45f8-9fc3-2cfa087b93ef" style="SubTitle" x="422" y="48" width="69" height="22"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Segta]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="746f5ccb-5312-4bdb-8379-09ae7945fcf5" stretchType="RelativeToTallestObject" x="-21" y="-20" width="144" height="114"/>
+				<imageExpression><![CDATA["./logoOriginal.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="57" splitType="Stretch">
+			<frame>
+				<reportElement uuid="dc3db48b-018a-415a-9a12-593e9890454e" mode="Opaque" x="0" y="0" width="556" height="46"/>
+				<subreport>
+					<reportElement uuid="ac44211e-61f8-4605-95b7-a0aba57038a8" x="12" y="1" width="516" height="45"/>
+					<subreportParameter name="pLote">
+						<subreportParameterExpression><![CDATA[$F{idLote}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportTamborContenedorDetalle.jasper"]]></subreportExpression>
+				</subreport>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement uuid="9d8cfa95-02cc-4502-ad45-4e20d96da86c" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="31a3e13a-34f7-4c4e-92b3-8d81988fb4c4" mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="59321743-b456-4eae-9220-d702fc5413fe" style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="b699249b-d2e8-4473-8497-0384482b519b" style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="1e4722bf-a1be-4bdf-aad2-4ed5e33f2c63" style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

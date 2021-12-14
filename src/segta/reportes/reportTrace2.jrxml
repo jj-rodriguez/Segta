@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportTrace2" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f105bd62-5b47-4cc1-819a-179a4c175502">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="pLote" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     CONCAT(CONCAT("POLYFLORA ",UPPER(SUBSTR(lc.`color`,1,INSTR(lc.`color`,'(')-1)))," HONEY") AS lote_color,
+     l.lote AS lote_lote,
+     l.consigntario AS lote_consigntario,
+     l.despacho AS lote_despacho,
+     sum(t.neto) AS netoLote
+FROM
+      lote l INNER JOIN tambor t ON l.idLote=t.idLote
+      INNER JOIN lotecontrato lc ON lc.idLoteContrato=l.idLoteContrato
+WHERE l.idLote=$P{pLote}
+GROUP BY lote_color,lote_lote,lote_consigntario,lote_despacho]]>
+	</queryString>
+	<field name="lote_color" class="java.lang.String"/>
+	<field name="lote_lote" class="java.lang.String"/>
+	<field name="lote_consigntario" class="java.lang.String"/>
+	<field name="lote_despacho" class="java.sql.Date"/>
+	<field name="netoLote" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="eace2e17-6069-40a8-84f0-ccc18ebdc3a6" style="Title" x="170" y="0" width="301" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[TRACEABILITY REPORT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c07c5019-2342-41eb-94ab-0d86084a8e01" style="SubTitle" x="426" y="30" width="45" height="22"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Segta]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="746f5ccb-5312-4bdb-8379-09ae7945fcf5" x="-21" y="-18" width="219" height="154"/>
+				<imageExpression><![CDATA["./logoOriginal.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="66ce500a-7327-494c-9e11-a8f908d0c272" x="151" y="83" width="353" height="21"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[+(54) 91128388950	info@gasrroni.com	www.gasrroni.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="66ce500a-7327-494c-9e11-a8f908d0c272" x="129" y="62" width="423" height="21"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Camino de Circunvalación y Calle 113 Navarro (6605) Buenos Aires, Argentina]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="174" splitType="Stretch">
+			<line>
+				<reportElement uuid="f9fe2660-d7ba-48f8-a598-056f08ad9f01" positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<frame>
+				<reportElement uuid="bcebf37b-22c5-4da6-bf59-9420db125aad" x="1" y="0" width="554" height="167"/>
+				<rectangle>
+					<reportElement uuid="9dfad0dc-5ea0-4b78-b919-02b0311af103" x="365" y="20" width="186" height="139"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="27023f01-1493-4746-84f4-8d4e26f17d84" x="96" y="20" width="145" height="139"/>
+				</rectangle>
+				<rectangle radius="0">
+					<reportElement uuid="8846bac1-fdb2-4520-9dce-a80c621c0d52" mode="Opaque" x="241" y="20" width="124" height="139" forecolor="#000000" backcolor="#CCCCCC"/>
+					<graphicElement fill="Solid"/>
+				</rectangle>
+				<rectangle>
+					<reportElement uuid="ea18da8e-404a-4bd3-8da7-52617b8263b2" mode="Opaque" x="0" y="20" width="96" height="139" forecolor="#000000" backcolor="#CCCCCC"/>
+				</rectangle>
+				<staticText>
+					<reportElement uuid="14ad4035-2387-4414-8d98-ce03c6c755c6" style="Column header" mode="Transparent" x="241" y="54" width="124" height="35" forecolor="#736343" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[EXPORTER]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="14ad4035-2387-4414-8d98-ce03c6c755c6" style="Column header" mode="Transparent" x="241" y="89" width="124" height="35" forecolor="#736343" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[MANUFACTURER]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="e2934c0b-d29a-49e2-8a50-8c7e57ed934d" mode="Transparent" x="365" y="54" width="186" height="35" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[GASRRONI SRL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2be6249e-84db-45f9-97e8-56a2f0341b6b" style="Column header" mode="Transparent" x="0" y="89" width="96" height="35" forecolor="#736343" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[PRODUCT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="14ad4035-2387-4414-8d98-ce03c6c755c6" style="Column header" mode="Transparent" x="0" y="54" width="96" height="35" forecolor="#736343" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[ORIGIN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="e2934c0b-d29a-49e2-8a50-8c7e57ed934d" mode="Transparent" x="96" y="124" width="145" height="35" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[100% PURE BEE HONEY]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="e2934c0b-d29a-49e2-8a50-8c7e57ed934d" mode="Transparent" x="365" y="89" width="186" height="35" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[PEREZ Y PEREZ SH (LUJAN APICULTURA)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="6d7614ff-8707-420b-afbb-b7e1ad22cdf1" style="Column header" mode="Transparent" x="0" y="20" width="96" height="35" forecolor="#736343" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[BATCH N°]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="e2934c0b-d29a-49e2-8a50-8c7e57ed934d" mode="Transparent" x="96" y="54" width="145" height="35" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[ARGENTINA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="14ad4035-2387-4414-8d98-ce03c6c755c6" style="Column header" mode="Transparent" x="0" y="124" width="96" height="35" forecolor="#736343" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[DESCRIPTION]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="14ad4035-2387-4414-8d98-ce03c6c755c6" style="Column header" mode="Transparent" x="241" y="20" width="124" height="35" forecolor="#736343" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[CONSIGNEE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2eb78733-46bd-47dc-86bc-5a733e5ac00c" style="Column header" mode="Transparent" x="241" y="124" width="124" height="35" forecolor="#736343" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[HOMOGENIZATION DATE]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="44589e58-47e9-44ef-b319-711e1c387262" x="0" y="124" width="551" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="44589e58-47e9-44ef-b319-711e1c387262" x="0" y="53" width="551" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="44589e58-47e9-44ef-b319-711e1c387262" x="0" y="89" width="551" height="1"/>
+				</line>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="94c6d5dc-9dd7-4de9-b075-cb6f2dbc3ebc" style="Detail" x="99" y="22" width="142" height="33"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{lote_lote}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="2071c489-5b44-495d-b660-c7d1bbc51047" style="Detail" x="365" y="22" width="184" height="33"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{lote_consigntario}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="MMM-yy" isBlankWhenNull="true">
+					<reportElement uuid="781beab8-2202-47de-8b67-077090db0ff6" style="Detail" x="368" y="127" width="181" height="34"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{lote_despacho}]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement uuid="456e0bb6-ddc6-4087-a484-00a47a6cc2eb" mode="Transparent" x="99" y="90" width="142" height="34" forecolor="#000000" backcolor="#FFFFFF"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{lote_color}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="142" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="2894b9b3-b76d-492c-92e1-3dcc65012c47" x="1" y="13" width="554" height="112"/>
+				<subreportParameter name="pLote">
+					<subreportParameterExpression><![CDATA[$P{pLote}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="netoLote">
+					<subreportParameterExpression><![CDATA[$F{netoLote}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportTrace2Detalle.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="17" splitType="Stretch">
+			<line>
+				<reportElement uuid="2158bdc1-394d-4809-b5ad-7ac8c00ae2db" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="9397afaa-712b-4d5a-80f5-b72d6b60c2e9" mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="b12e026c-61a4-4283-ae8a-90c91066d86b" style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="87754be1-9d14-4492-a001-946ce617bbde" style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="d07331dd-3636-4c05-ab06-f86d58aee5a2" style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

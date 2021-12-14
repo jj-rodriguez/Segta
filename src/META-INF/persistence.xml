@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="SegTAPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>segta.clases.Analisis</class>
+    <class>segta.clases.Analisisdeterminacion</class>
+    <class>segta.clases.Cliente</class>
+    <class>segta.clases.Color</class>
+    <class>segta.clases.Contrato</class>
+    <class>segta.clases.Contratodeterminacion</class>
+    <class>segta.clases.Descargas</class>
+    <class>segta.clases.Determinacion</class>
+    <class>segta.clases.Localidad</class>
+    <class>segta.clases.Lote</class>
+    <class>segta.clases.Lotecontrato</class>
+    <class>segta.clases.Pool</class>
+    <class>segta.clases.Proveedor</class>
+    <class>segta.clases.Provincia</class>
+    <class>segta.clases.Sector</class>
+    <class>segta.clases.Tambor</class>
+    <class>segta.clases.Usuario</class>
+    <class>segta.clases.Usuarioperfil</class>
+    <properties>
+      <!-- Esta es la configuracion de GASRRONI. NO CAMBIAR -->
+      <!--
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.0.2:3306/segta?zeroDateTimeBehavior=convertToNull"/>
+            <property name="javax.persistence.jdbc.user" value="segta"/>
+            <property name="javax.persistence.jdbc.password" value="nvr963"/>            
+      -->
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/segta?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="1234"/>
+    </properties>
+  </persistence-unit>
+</persistence>
