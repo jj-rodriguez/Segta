@@ -35,6 +35,7 @@ public class JDialogApicultorVenta extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         provSel = prov;
+//        prueba de actualizacion GitHub
         
     }
 
