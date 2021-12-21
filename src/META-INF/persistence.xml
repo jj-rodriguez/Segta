@@ -22,11 +22,11 @@
     <class>segta.clases.Usuarioperfil</class>
     <properties>
       <!-- Esta es la configuracion de GASRRONI. NO CAMBIAR -->
-      <!--
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.0.2:3306/segta?zeroDateTimeBehavior=convertToNull"/>
+      
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.0.2:3306/segta?zeroDateTimeBehavior=convertToNull"/>
             <property name="javax.persistence.jdbc.user" value="segta"/>
-            <property name="javax.persistence.jdbc.password" value="nvr963"/>            
-      -->
+            <property name="javax.persistence.jdbc.password" value="nvr963"/> -->           
+      
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/segta?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

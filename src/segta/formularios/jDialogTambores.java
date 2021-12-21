@@ -5,6 +5,7 @@
  */
 package segta.formularios;
 
+import com.sun.glass.events.KeyEvent;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -40,6 +41,7 @@ import net.sourceforge.barbecue.BarcodeFactory;
 import net.sourceforge.barbecue.BarcodeImageHandler;
 import segta.clases.Proveedor;
 import segta.clases.Tambor;
+import segta.controladores.DescargasJpaController;
 import segta.controladores.TamborJpaController;
 import segta.controladores.exceptions.NonexistentEntityException;
 import static segta.formularios.inicio.de;
@@ -73,6 +75,7 @@ public class jDialogTambores extends javax.swing.JDialog {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("SegTAPU");
     EntityManager em = emf.createEntityManager();
     TamborJpaController controladorT = new TamborJpaController(emf);
+    DescargasJpaController   controladorD = new DescargasJpaController(emf);
 
     String senasa = null;
     String estadoTambor = null;
@@ -86,6 +89,7 @@ public class jDialogTambores extends javax.swing.JDialog {
         initComponents();
         jBCargarProveedor.setVisible(false);
         buscaNro();
+        this.jComboBoxApicultor.requestFocus();
         jRBNuevo.setSelected(true);
 //        COMPLETA LA LISTA DESPLEGABLE CON LA RAZON SOCIAL DEL PROVEEDOR
         jCBProveedor.setRenderer(new DefaultListCellRenderer() {
@@ -116,7 +120,7 @@ public class jDialogTambores extends javax.swing.JDialog {
         jTFFechaDescarga.setText(fechaDescarga);
         jTFCamion.setText(de.getCamion());
         jTFDescarga.setText(de.getIdDescargas().toString());
-        jCBProveedor.setSelectedItem(de.getIdProveedor());
+//        jCBProveedor.setSelectedItem(de.getIdProveedor());
 
     }
 
@@ -136,6 +140,10 @@ public class jDialogTambores extends javax.swing.JDialog {
         EstadoTambor = new javax.swing.ButtonGroup();
         proveedorQuery = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT p FROM Proveedor p WHERE p.baja = 0 ORDER BY p.razonSocial");
         proveedorList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(proveedorQuery.getResultList());
+        acopiadorQuery = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT p FROM Proveedor p WHERE p.acopiador = 1 AND p.baja = 0 ORDER BY p.razonSocial");
+        acopiadorList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : org.jdesktop.observablecollections.ObservableCollections.observableList(acopiadorQuery.getResultList());
+        tamborQuery1 = java.beans.Beans.isDesignTime() ? null :  SegTAPUEntityManager.createQuery("SELECT t FROM Tambor t WHERE t.idDescarga = :descargaSel").setParameter("descargaSel",de);
+        tamborList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() :  org.jdesktop.observablecollections.ObservableCollections.observableList(tamborQuery.getResultList());
         jPanel3 = new javax.swing.JPanel();
         jPanelTambores = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -172,6 +180,8 @@ public class jDialogTambores extends javax.swing.JDialog {
         jBCargarProveedor = new javax.swing.JButton();
         jTFIdentificador = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        jComboBoxApicultor = new javax.swing.JComboBox<>();
+        jLabel17 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -190,6 +200,10 @@ public class jDialogTambores extends javax.swing.JDialog {
         p.setRazonSocial("");
         proveedorList.add(0,p);
 
+        Proveedor a = new Proveedor();
+        a.setRazonSocial("");
+        acopiadorList.add(0,a);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CARGAR TAMBORES");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -203,39 +217,34 @@ public class jDialogTambores extends javax.swing.JDialog {
         jTable1.setOpaque(false);
         jTable1.setRequestFocusEnabled(false);
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tamborList, jTable1);
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tamborList1, jTable1);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numero}"));
         columnBinding.setColumnName("Numero");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${senasa}"));
         columnBinding.setColumnName("Senasa");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${identificador}"));
         columnBinding.setColumnName("Identificador");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bruto}"));
-        columnBinding.setColumnName("Bruto");
-        columnBinding.setColumnClass(Float.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${tara}"));
         columnBinding.setColumnName("Tara");
         columnBinding.setColumnClass(Float.class);
-        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${bruto}"));
+        columnBinding.setColumnName("Bruto");
+        columnBinding.setColumnClass(Float.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${neto}"));
         columnBinding.setColumnName("Neto");
         columnBinding.setColumnClass(Float.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idProveedor.razonSocial}"));
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${acopiador}"));
+        columnBinding.setColumnName("Acopiador");
+        columnBinding.setColumnClass(segta.clases.Proveedor.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idProveedor}"));
         columnBinding.setColumnName("Apicultor");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
+        columnBinding.setColumnClass(segta.clases.Proveedor.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${observaciones}"));
         columnBinding.setColumnName("Observaciones");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -292,6 +301,11 @@ public class jDialogTambores extends javax.swing.JDialog {
         jBAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBAgregarActionPerformed(evt);
+            }
+        });
+        jBAgregar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBAgregarKeyPressed(evt);
             }
         });
 
@@ -361,6 +375,11 @@ public class jDialogTambores extends javax.swing.JDialog {
                 jTFSenasaFocusLost(evt);
             }
         });
+        jTFSenasa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFSenasaKeyPressed(evt);
+            }
+        });
 
         jTFTara.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTFTara.setNextFocusableComponent(jTFBruto);
@@ -369,8 +388,13 @@ public class jDialogTambores extends javax.swing.JDialog {
                 jTFTaraFocusLost(evt);
             }
         });
+        jTFTara.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFTaraKeyPressed(evt);
+            }
+        });
 
-        jCBProveedor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jCBProveedor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jCBProveedor.setNextFocusableComponent(jTFNumero);
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, proveedorList, jCBProveedor);
@@ -379,6 +403,11 @@ public class jDialogTambores extends javax.swing.JDialog {
         jCBProveedor.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jCBProveedorItemStateChanged(evt);
+            }
+        });
+        jCBProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jCBProveedorKeyPressed(evt);
             }
         });
 
@@ -438,6 +467,11 @@ public class jDialogTambores extends javax.swing.JDialog {
                 jTFBrutoActionPerformed(evt);
             }
         });
+        jTFBruto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFBrutoKeyPressed(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -453,6 +487,11 @@ public class jDialogTambores extends javax.swing.JDialog {
 
         jTFRemito.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTFRemito.setNextFocusableComponent(jTFTara);
+        jTFRemito.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFRemitoKeyPressed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -467,13 +506,39 @@ public class jDialogTambores extends javax.swing.JDialog {
             }
         });
 
+        jTFIdentificador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFIdentificadorKeyPressed(evt);
+            }
+        });
+
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel10.setText("IDENTIFICADOR");
+
+        jComboBoxApicultor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, acopiadorList, jComboBoxApicultor);
+        bindingGroup.addBinding(jComboBoxBinding);
+
+        jComboBoxApicultor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBoxApicultorKeyPressed(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel17.setText("ACOPIADOR");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jRBNuevo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -491,7 +556,7 @@ public class jDialogTambores extends javax.swing.JDialog {
                                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTFRemito, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -516,37 +581,45 @@ public class jDialogTambores extends javax.swing.JDialog {
                                         .addComponent(jLNeto, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTFIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(47, 47, 47)
-                                .addComponent(jBCargarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jCBProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jTFIdentificador, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(47, 47, 47)
+                                                .addComponent(jBCargarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jTFNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jCBProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxApicultor, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFTara, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTFTara, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(400, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxApicultor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -563,7 +636,7 @@ public class jDialogTambores extends javax.swing.JDialog {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTFRemito, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -586,11 +659,11 @@ public class jDialogTambores extends javax.swing.JDialog {
                     .addComponent(jRReacondicionado)
                     .addComponent(jRCambio)
                     .addComponent(jRGolpeado))
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DESCARGA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
@@ -618,9 +691,11 @@ public class jDialogTambores extends javax.swing.JDialog {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(193, 193, 193)
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTFFechaDescarga, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(104, 104, 104)
+                .addGap(112, 112, 112)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTFCamion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -629,30 +704,26 @@ public class jDialogTambores extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTFDescarga, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(1009, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTFCamion, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTFDescarga)
+                                .addComponent(jLabel16))
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jTFCamion)
+                                .addComponent(jLabel8))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTFDescarga, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                            .addComponent(jLabel16)))
-                    .addComponent(jTFFechaDescarga))
+                            .addComponent(jLabel9)
+                            .addComponent(jTFFechaDescarga))))
                 .addContainerGap())
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addContainerGap()))
         );
 
         jBVolver.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -706,9 +777,9 @@ public class jDialogTambores extends javax.swing.JDialog {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanelTambores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -752,16 +823,12 @@ public class jDialogTambores extends javax.swing.JDialog {
         jTFTara.setText("");
         jLNeto.setText("");
         jTFIdentificador.setText("");
-        tamborList.clear();
-        tamborQuery = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT t FROM Tambor t WHERE t.idDescarga =:descargaSel").setParameter("descargaSel", de);
-        tamborList.addAll(tamborQuery.getResultList());
-        if(de.getIdProveedor() != null){
-            this.jCBProveedor.setSelectedItem(de);
-        }else{
-            this.jCBProveedor.setSelectedIndex(0);
-        }
-        
-
+        tamborList1.clear();
+        tamborQuery1 = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT t FROM Tambor t WHERE t.idDescarga =:descargaSel").setParameter("descargaSel", de);
+        tamborList1.addAll(tamborQuery1.getResultList());
+        this.jComboBoxApicultor.requestFocus();
+        jCBProveedor.setSelectedIndex(0);    
+       
     }
 
     public boolean validarIngreso() {
@@ -797,7 +864,7 @@ public class jDialogTambores extends javax.swing.JDialog {
     }
     private void jBAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAgregarActionPerformed
 
-        jTFNumero.requestFocus();
+//        jTFNumero.requestFocus();
 
         if (jRBNuevo.isSelected()) {
             estadoTambor = "nuevo";
@@ -816,10 +883,17 @@ public class jDialogTambores extends javax.swing.JDialog {
 
             Proveedor provSel = (Proveedor) jCBProveedor.getSelectedItem();
             nuevoTambor.setIdDescarga(de);
+            Proveedor AcoSel = (Proveedor) this.jComboBoxApicultor.getSelectedItem();
+            if (AcoSel.getRazonSocial() == "") {
+                AcoSel.setBaja(0);}
+            
+            nuevoTambor.setAcopiador(AcoSel);            
             if (provSel.getRazonSocial() == "") {
-                nuevoTambor.setIdProveedor(de.getIdProveedor());
+                nuevoTambor.setIdProveedor(AcoSel);
             }else{
                 nuevoTambor.setIdProveedor(provSel);
+                
+                
             }
             nuevoTambor.setIdentificador(jTFIdentificador.getText());
             nuevoTambor.setNumero(nro);
@@ -848,7 +922,7 @@ public class jDialogTambores extends javax.swing.JDialog {
                 jTable1.requestFocus();
                 jTable1.changeSelection(jTable1.getRowCount() - 1, 0, false, false);
                 buscaNro();
-                this.jTFSenasa.requestFocus();
+//                this.jTFSenasa.requestFocus();
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "error al cargar tambor");
@@ -856,13 +930,13 @@ public class jDialogTambores extends javax.swing.JDialog {
                         .getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+this.jComboBoxApicultor.requestFocus();
     }//GEN-LAST:event_jBAgregarActionPerformed
 
     private void jBEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEditarActionPerformed
 
         if (this.jTable1.getSelectedRowCount() == 1) {
-            Tambor tamborSel = (Tambor) tamborList.get(jTable1.getSelectedRow());
+            Tambor tamborSel = (Tambor) tamborList1.get(jTable1.getSelectedRow());
             if (tamborSel.getEstado().equals("descargado")) {
                 new JDialogeditarTambor(this, true, tamborSel).setVisible(true);
             } else if (tamborSel.getEstado().equals("clasificado")) {
@@ -879,7 +953,7 @@ public class jDialogTambores extends javax.swing.JDialog {
     private void jBBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBorrarActionPerformed
 
         if (this.jTable1.getSelectedRowCount() == 1) {
-            Tambor tamborSel = (Tambor) tamborList.get(jTable1.getSelectedRow());
+            Tambor tamborSel = (Tambor) tamborList1.get(jTable1.getSelectedRow());
             if (tamborSel.getEstado().equals("descargado")) {
                 if (JOptionPane.showConfirmDialog(null, "Desea Eliminar", null, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     try {
@@ -920,7 +994,7 @@ public class jDialogTambores extends javax.swing.JDialog {
 
     private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
         if (this.jTable1.getSelectedRowCount() == 1) {
-            Tambor tamborSel = (Tambor) tamborList.get(jTable1.getSelectedRow());
+            Tambor tamborSel = (Tambor) tamborList1.get(jTable1.getSelectedRow());
             imprimeNeto = String.valueOf(tamborSel.getNeto());
             imprimeNro = String.valueOf(tamborSel.getNumero());
             imprimir();
@@ -1005,7 +1079,7 @@ public class jDialogTambores extends javax.swing.JDialog {
                 for (int i = 0; i < jTable1.getRowCount(); i++) {
 
                     if (jTable1.isRowSelected(i)) {
-                        tamborSel = (Tambor) tamborList.get(i);
+                        tamborSel = (Tambor) tamborList1.get(i);
                         if (tamborSel.getEstado().equals("despachado") || tamborSel.getEstado().equals("loteado")) {
                             validacion = true;
                         } else {
@@ -1032,8 +1106,9 @@ public class jDialogTambores extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Tambor", "Validación", JOptionPane.WARNING_MESSAGE);
         }
 
-        tamborList.clear();
-        tamborList.addAll(tamborQuery.getResultList());
+        tamborList1.clear();
+        tamborList1.addAll(tamborQuery1.getResultList());
+        this.jComboBoxApicultor.requestFocus();
     }//GEN-LAST:event_jBApicultorActionPerformed
 
     private void jBCargarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCargarProveedorActionPerformed
@@ -1048,6 +1123,110 @@ public class jDialogTambores extends javax.swing.JDialog {
     private void jCBProveedorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBProveedorItemStateChanged
         this.jTFRemito.setText("");
     }//GEN-LAST:event_jCBProveedorItemStateChanged
+// FUNCIONES PARA PASAR DE CAMPO EN CAMPO CON ENTRE 
+    private void jComboBoxApicultorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxApicultorKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            this.jCBProveedor.requestFocus();}
+    }//GEN-LAST:event_jComboBoxApicultorKeyPressed
+
+    private void jCBProveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCBProveedorKeyPressed
+             if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            this.jTFIdentificador.requestFocus();}
+    }//GEN-LAST:event_jCBProveedorKeyPressed
+
+    private void jTFIdentificadorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFIdentificadorKeyPressed
+             if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            this.jTFRemito.requestFocus();}
+    }//GEN-LAST:event_jTFIdentificadorKeyPressed
+
+    private void jTFRemitoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFRemitoKeyPressed
+             if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            this.jTFSenasa.requestFocus();}
+    }//GEN-LAST:event_jTFRemitoKeyPressed
+
+    private void jTFSenasaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFSenasaKeyPressed
+             if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            this.jTFTara.requestFocus();}
+    }//GEN-LAST:event_jTFSenasaKeyPressed
+
+    private void jTFTaraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFTaraKeyPressed
+             if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            this.jTFBruto.requestFocus();}
+    }//GEN-LAST:event_jTFTaraKeyPressed
+
+    private void jTFBrutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBrutoKeyPressed
+             if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            this.jBAgregar.requestFocus();}
+    }//GEN-LAST:event_jTFBrutoKeyPressed
+
+    private void jBAgregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBAgregarKeyPressed
+         
+        if (jRBNuevo.isSelected()) {
+            estadoTambor = "nuevo";
+        } else if (jRReacondicionado.isSelected()) {
+            estadoTambor = "reacondicionado";
+        } else if (jRGolpeado.isSelected()) {
+            estadoTambor = "golpeado";
+        } else if (jRCambio.isSelected()) {
+            estadoTambor = "cambio";
+        }
+        if (validarIngreso()) {
+
+            Tambor nuevoTambor = new Tambor();
+            float neto;
+            int nro = Integer.parseInt(jTFNumero.getText());
+
+            Proveedor provSel = (Proveedor) jCBProveedor.getSelectedItem();
+            nuevoTambor.setIdDescarga(de);
+            Proveedor AcoSel = (Proveedor) this.jComboBoxApicultor.getSelectedItem();
+            if (AcoSel.getRazonSocial() == "") {
+                AcoSel.setBaja(0);}
+            
+            nuevoTambor.setAcopiador(AcoSel);            
+            if (provSel.getRazonSocial() == "") {
+                nuevoTambor.setIdProveedor(AcoSel);
+            }else{
+                nuevoTambor.setIdProveedor(provSel);
+                
+                
+            }
+            nuevoTambor.setIdentificador(jTFIdentificador.getText());
+            nuevoTambor.setNumero(nro);
+            nuevoTambor.setRemito(jTFRemito.getText());
+            nuevoTambor.setSenasa(senasa);
+            float bruto = Float.parseFloat(jTFBruto.getText());
+            nuevoTambor.setBruto(bruto);
+            float tara = Float.parseFloat(jTFTara.getText());
+            nuevoTambor.setTara(tara);
+            neto = bruto - tara;
+            nuevoTambor.setNeto(neto);
+            nuevoTambor.setEstado("descargado");
+            nuevoTambor.setEstadoTambor(estadoTambor);
+            nuevoTambor.setTrazabilidad(false);
+            nuevoTambor.setObservaciones(jTAObservaciones.getText());
+
+            try {
+                controladorT.create(nuevoTambor);
+                //JOptionPane.showMessageDialog(null, "Tambor cargado");
+
+                imprimeNeto = Float.toString(neto);
+                imprimeNro = Integer.toString(nro);
+                imprimir();
+                jTAObservaciones.setText("");
+                actualizarTabla();
+                jTable1.requestFocus();
+                jTable1.changeSelection(jTable1.getRowCount() - 1, 0, false, false);
+                buscaNro();
+//                this.jTFSenasa.requestFocus();
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "error al cargar tambor");
+                Logger.getLogger(jDialogTambores.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+this.jComboBoxApicultor.requestFocus();
+    }//GEN-LAST:event_jBAgregarKeyPressed
 
     public PageFormat getPageFormat(PrinterJob pj) {
 
@@ -1183,7 +1362,7 @@ public class jDialogTambores extends javax.swing.JDialog {
 
             if (jTable1.isRowSelected(i)) {
                 cantidad++;
-                t = (Tambor) tamborList.get(i);
+                t = (Tambor) tamborList1.get(i);
 
                 //Suma Pesos
                 try {
@@ -1206,6 +1385,8 @@ public class jDialogTambores extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup EstadoTambor;
     private javax.persistence.EntityManager SegTAPUEntityManager;
+    private java.util.List<segta.clases.Proveedor> acopiadorList;
+    private javax.persistence.Query acopiadorQuery;
     private javax.swing.JButton jBAgregar;
     private javax.swing.JButton jBApicultor;
     private javax.swing.JButton jBBorrar;
@@ -1215,6 +1396,7 @@ public class jDialogTambores extends javax.swing.JDialog {
     private javax.swing.JButton jButtonImprimir;
     private javax.swing.JComboBox<String> jCBProveedor;
     private javax.swing.JCheckBox jCheckBoxSenasa;
+    private javax.swing.JComboBox<String> jComboBoxApicultor;
     private javax.swing.JTextField jLNeto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1224,6 +1406,7 @@ public class jDialogTambores extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1258,7 +1441,9 @@ public class jDialogTambores extends javax.swing.JDialog {
     private java.util.List<segta.clases.Proveedor> proveedorList;
     private javax.persistence.Query proveedorQuery;
     private java.util.List<segta.clases.Tambor> tamborList;
+    private java.util.List<segta.clases.Tambor> tamborList1;
     private javax.persistence.Query tamborQuery;
+    private javax.persistence.Query tamborQuery1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

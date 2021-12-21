@@ -130,8 +130,6 @@ public class jDialogDescargas extends javax.swing.JDialog {
         dCCfecha = new datechooser.beans.DateChooserCombo();
         jLabel7 = new javax.swing.JLabel();
         jTFObsTambores = new javax.swing.JTextArea();
-        jLabel8 = new javax.swing.JLabel();
-        jComboBoxApicultor = new javax.swing.JComboBox<>();
         jLabelDescargasFondo = new javax.swing.JLabel();
 
         Proveedor p = new Proveedor();
@@ -167,10 +165,6 @@ public class jDialogDescargas extends javax.swing.JDialog {
         columnBinding.setColumnName("Fecha");
         columnBinding.setColumnClass(java.util.Date.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idProveedor.razonSocial}"));
-        columnBinding.setColumnName("Acopiador");
-        columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${camion}"));
         columnBinding.setColumnName("Camion");
         columnBinding.setColumnClass(String.class);
@@ -188,12 +182,15 @@ public class jDialogDescargas extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(80);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(100);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
             jTable1.getColumnModel().getColumn(0).setMaxWidth(200);
             jTable1.getColumnModel().getColumn(1).setMinWidth(100);
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
             jTable1.getColumnModel().getColumn(1).setMaxWidth(200);
+            jTable1.getColumnModel().getColumn(2).setMinWidth(200);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(2).setMaxWidth(200);
         }
 
         jBAgregar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -378,7 +375,7 @@ public class jDialogDescargas extends javax.swing.JDialog {
                 .addComponent(jBImprimirTambores, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jBBuscarTambor, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jBImprimirRecibo, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(20, Short.MAX_VALUE))
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     jPanelDatos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DATOS DE LA DESCARGA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
@@ -436,17 +433,6 @@ public class jDialogDescargas extends javax.swing.JDialog {
     jTFObsTambores.setLineWrap(true);
     jTFObsTambores.setRows(20);
 
-    binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jTable1, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.obsTambores}"), jTFObsTambores, org.jdesktop.beansbinding.BeanProperty.create("text"));
-    bindingGroup.addBinding(binding);
-
-    jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-    jLabel8.setText("ACOPIADOR");
-
-    jComboBoxApicultor.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-
-    org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, proveedorList, jComboBoxApicultor);
-    bindingGroup.addBinding(jComboBoxBinding);
-
     javax.swing.GroupLayout jPanelDatosLayout = new javax.swing.GroupLayout(jPanelDatos);
     jPanelDatos.setLayout(jPanelDatosLayout);
     jPanelDatosLayout.setHorizontalGroup(
@@ -470,21 +456,15 @@ public class jDialogDescargas extends javax.swing.JDialog {
                 .addGroup(jPanelDatosLayout.createSequentialGroup()
                     .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanelDatosLayout.createSequentialGroup()
-                            .addComponent(jLabel8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jComboBoxApicultor, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanelDatosLayout.createSequentialGroup()
-                            .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanelDatosLayout.createSequentialGroup()
-                                    .addGap(33, 33, 33)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jLabel5)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(dCCfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTFCamion, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGap(33, 33, 33)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDatosLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel5)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(dCCfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTFCamion, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(0, 0, Short.MAX_VALUE)))
             .addContainerGap())
     );
@@ -495,19 +475,15 @@ public class jDialogDescargas extends javax.swing.JDialog {
             .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
                 .addComponent(dCCfecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGap(18, 18, 18)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
             .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jTFCamion, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(23, 23, 23)
-            .addGroup(jPanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(jComboBoxApicultor))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jTFObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(18, 18, 18)
+            .addComponent(jTFObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(39, 39, 39)
             .addComponent(jLabel7)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addComponent(jTFObsTambores, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -523,11 +499,10 @@ public class jDialogDescargas extends javax.swing.JDialog {
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
         .addGroup(jPanel3Layout.createSequentialGroup()
             .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(18, 18, 18)
             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jPanelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(jBVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addContainerGap(18, Short.MAX_VALUE))
     );
@@ -535,12 +510,13 @@ public class jDialogDescargas extends javax.swing.JDialog {
         jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel3Layout.createSequentialGroup()
             .addContainerGap()
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(jPanelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanelTabla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGap(18, 18, 18)
-            .addComponent(jBVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addComponent(jPanelTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addComponent(jBVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addContainerGap(14, Short.MAX_VALUE))
     );
 
     getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 1160, 670));
@@ -560,7 +536,8 @@ public class jDialogDescargas extends javax.swing.JDialog {
         desactivarTabla();
         jTFCamion.setText("");
         jTFObservaciones.setText("");
-        this.jTFObsTambores.setText("");
+        jTFObsTambores.selectAll();
+        jTFObsTambores.replaceSelection("");
         control = "agregar";
 
 
@@ -588,12 +565,13 @@ public class jDialogDescargas extends javax.swing.JDialog {
 
         jTFCamion.setText("");
         jTFObservaciones.setText("");
-        jTFObsTambores.setText("");
+        jTFObsTambores.selectAll();
+        jTFObsTambores.replaceSelection("");
         jTFCamion.requestFocus();
         descargasList.clear();
-        descargasQuery = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT d FROM Descargas d ORDER BY d.idDescargas");
+        descargasQuery = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT d FROM Descargas d ORDER BY d.idDescargas DESC");
         descargasList.addAll(descargasQuery.getResultList());
-        jComboBoxApicultor.setSelectedIndex(0);
+//        jComboBoxApicultor.setSelectedIndex(0);
     }
 
     private void activarDatos() {
@@ -636,7 +614,7 @@ public class jDialogDescargas extends javax.swing.JDialog {
     private void jBAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAceptarActionPerformed
 
         Descargas nuevaDescarga = new Descargas();
-        apicultor = (Proveedor) this.jComboBoxApicultor.getSelectedItem();
+//        apicultor = (Proveedor) this.jComboBoxApicultor.getSelectedItem();
 
         if (jTFCamion.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Completar datos de camion");
@@ -658,9 +636,9 @@ public class jDialogDescargas extends javax.swing.JDialog {
             if (control == "agregar") {
                 nuevaDescarga.setCamion(jTFCamion.getText());
                 nuevaDescarga.setObservaciones(jTFObservaciones.getText());
-                if (apicultor.getRazonSocial() != "") {
-                    nuevaDescarga.setIdProveedor(apicultor);
-                }
+//                if (apicultor.getRazonSocial() != "") {
+//                    nuevaDescarga.setIdProveedor(apicultor);
+//                }
                 try {
                     controladorD.create(nuevaDescarga);
                     JOptionPane.showMessageDialog(null, "Descarga Agregada");
@@ -673,7 +651,7 @@ public class jDialogDescargas extends javax.swing.JDialog {
 
                 de.setCamion(jTFCamion.getText());
                 de.setObservaciones(jTFObservaciones.getText());
-                de.setIdProveedor(apicultor);
+//                de.setIdProveedor(apicultor);
                 try {
                     Date fechaD = (Date) new SimpleDateFormat("dd/MM/yy").parse(fechaS);
                     de.setFecha(fechaD);
@@ -685,7 +663,7 @@ public class jDialogDescargas extends javax.swing.JDialog {
                 try {
                     controladorD.edit(de);
                     JOptionPane.showMessageDialog(null, "Descarga actualizada");
-//                    actualizarTabla();
+                    actualizarTabla();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Error al editar la descarga", "Información", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(jDialogDescargas.class.getName()).log(Level.SEVERE, null, ex);
@@ -820,7 +798,8 @@ public class jDialogDescargas extends javax.swing.JDialog {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         de = descargasList.get(jTable1.getSelectedRow());
-        this.jComboBoxApicultor.setSelectedItem(de.getIdProveedor());
+        this.jTFObsTambores.setText(de.getObsTambores());
+//        this.jComboBoxApicultor.setSelectedItem(de.getIdProveedor());
     }//GEN-LAST:event_jTable1MouseClicked
 
 
@@ -842,7 +821,6 @@ public class jDialogDescargas extends javax.swing.JDialog {
     private javax.swing.JButton jBImprimirRecibo;
     private javax.swing.JButton jBImprimirTambores;
     private javax.swing.JButton jBVolver;
-    private javax.swing.JComboBox<String> jComboBoxApicultor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -850,7 +828,6 @@ public class jDialogDescargas extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabelDescargasFondo;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelDatos;

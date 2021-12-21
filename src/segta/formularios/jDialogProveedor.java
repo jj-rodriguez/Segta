@@ -518,7 +518,7 @@ public class jDialogProveedor extends javax.swing.JDialog {
                     // los nuevos registros son agregados al MODEL del JCombo HIJO
                     Object item = e.getItem();
                     Query ql;
-                    ql = SegTAPUEntityManager.createQuery("SELECT l FROM Localidad l WHERE l.idProvincia = :pro");
+                    ql = SegTAPUEntityManager.createQuery("SELECT l FROM Localidad l WHERE l.idProvincia = :pro ");
                     ql.setParameter("pro", item);
                     localidadQuery = java.beans.Beans.isDesignTime() ? null : ql;
                     localidadList.clear();
@@ -587,10 +587,15 @@ public class jDialogProveedor extends javax.swing.JDialog {
 
             }
         }
+        // Localliad seleccionada
+        loc = localidadList.get(this.jComboLocalidad.getSelectedIndex());
+        if (loc.getIdLocalidad() == null) {
+            flagValidacion = 1;
+            JOptionPane.showMessageDialog(null, "Seleccione Localidad", "Información", JOptionPane.WARNING_MESSAGE);
+            jComboLocalidad.requestFocus();
+        }
 
         if (flagValidacion == 0) {
-
-            loc = localidadList.get(this.jComboLocalidad.getSelectedIndex());
 
             if (tipo.equals("nuevo")) {
                 Proveedor nuevoProv = new Proveedor();
@@ -736,10 +741,10 @@ public class jDialogProveedor extends javax.swing.JDialog {
             if (prov.getAcopiador() != null) {
                 if (prov.getAcopiador().equals(true)) {
                     this.jCBAcopiador.setSelected(true);
-                }else{
+                } else {
                     this.jCBAcopiador.setSelected(false);
                 }
-            }else{
+            } else {
                 this.jCBAcopiador.setSelected(false);
             }
 

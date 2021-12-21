@@ -119,6 +119,9 @@ public class Tambor implements Serializable {
     @JoinColumn(name = "idProveedorVenta", referencedColumnName = "idProveedor")
     @ManyToOne
     private Proveedor idProveedorVenta;
+    @JoinColumn(name = "acopiador", referencedColumnName = "idProveedor")
+    @ManyToOne
+    private Proveedor acopiador;
     @JoinColumn(name = "idSector", referencedColumnName = "idSector")
     @ManyToOne
     private Sector idSector;
@@ -367,6 +370,15 @@ public class Tambor implements Serializable {
         Proveedor oldIdProveedorVenta = this.idProveedorVenta;
         this.idProveedorVenta = idProveedorVenta;
         changeSupport.firePropertyChange("idProveedorVenta", oldIdProveedorVenta, idProveedorVenta);
+    }
+    public Proveedor getAcopiador() {
+        return acopiador;
+    }
+
+    public void setAcopiador(Proveedor acopiador) {
+        Proveedor oldAcopiador = this.acopiador;
+        this.acopiador = acopiador;
+        changeSupport.firePropertyChange("idProveedorVenta", oldAcopiador, acopiador);
     }
 
     public Sector getIdSector() {
