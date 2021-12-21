@@ -5,7 +5,7 @@
  */
 package segta.formularios;
 
-import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import static java.lang.Float.parseFloat;
 import java.util.logging.Level;
@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import segta.clases.Proveedor;
 import segta.clases.Tambor;
@@ -41,7 +39,7 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
         super(parent, modal);
         tamborSel = t;
         initComponents();
-        this.jBCargarProveedor.setVisible(false);       
+        this.jBCargarProveedor.setVisible(false);
         /*
         jCBProveedor.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -157,6 +155,11 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
                 jBAceptarActionPerformed(evt);
             }
         });
+        jBAceptar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBAceptarKeyPressed(evt);
+            }
+        });
 
         jBCancelar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jBCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/segta/imagenes/cancerlar.png"))); // NOI18N
@@ -179,11 +182,21 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
                 jTFSenasaFocusLost(evt);
             }
         });
+        jTFSenasa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFSenasaKeyPressed(evt);
+            }
+        });
 
         jTFTara.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jTFTara.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTFTaraFocusLost(evt);
+            }
+        });
+        jTFTara.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFTaraKeyPressed(evt);
             }
         });
 
@@ -195,6 +208,11 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
         jCBProveedor.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jCBProveedorItemStateChanged(evt);
+            }
+        });
+        jCBProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jCBProveedorKeyPressed(evt);
             }
         });
 
@@ -250,6 +268,11 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
                 jTFBrutoActionPerformed(evt);
             }
         });
+        jTFBruto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFBrutoKeyPressed(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -263,6 +286,11 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
         jRCambio.setText("CAMBIO");
 
         jTFRemito.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTFRemito.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFRemitoKeyPressed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -276,6 +304,12 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
             }
         });
 
+        jTFIdentificador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFIdentificadorKeyPressed(evt);
+            }
+        });
+
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel10.setText("IDENTIFICADOR");
 
@@ -286,6 +320,12 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
 
         jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, proveedorList1, jComboBoxApicultor);
         bindingGroup.addBinding(jComboBoxBinding);
+
+        jComboBoxApicultor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBoxApicultorKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -483,10 +523,12 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
         Proveedor AcoSel = (Proveedor) jComboBoxApicultor.getSelectedItem();
         float neto = 0;
 
-        if(provSel.getRazonSocial() != ""){
-        tamborSel.setIdProveedor(provSel);}
-        if(AcoSel.getRazonSocial() != ""){
-        tamborSel.setAcopiador(AcoSel);}
+        if (provSel.getRazonSocial() != "") {
+            tamborSel.setIdProveedor(provSel);
+        }
+        if (AcoSel.getRazonSocial() != "") {
+            tamborSel.setAcopiador(AcoSel);
+        }
         tamborSel.setSenasa(senasa);
         float bruto = Float.parseFloat(jTFBruto.getText());
         tamborSel.setBruto(bruto);
@@ -494,7 +536,7 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
         tamborSel.setTara(tara);
         neto = bruto - tara;
         tamborSel.setNeto(neto);
-        tamborSel.setEstadoTambor(estadoTambor);        
+        tamborSel.setEstadoTambor(estadoTambor);
         tamborSel.setObservaciones(jTAObservaciones.getText());
         tamborSel.setIdentificador(jTFIdentificador.getText());
 
@@ -529,11 +571,13 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
     private void jCBProveedorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBProveedorItemStateChanged
         this.jTFRemito.setText("");
     }//GEN-LAST:event_jCBProveedorItemStateChanged
+// FUNCIONES PARA PASAR DE CAMPO EN CAMPO CON ENTRE 
 
+    
     private void jTFBrutoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFBrutoFocusLost
         boolean val = validaBrutoTara();
     }//GEN-LAST:event_jTFBrutoFocusLost
-    
+
     public boolean validaBrutoTara() {
         float bruto = 0;
         float tara = 0;
@@ -595,6 +639,94 @@ public class JDialogeditarTambor extends javax.swing.JDialog {
         this.proveedorList.addAll(proveedorQuery.getResultList());
 
     }//GEN-LAST:event_jBCargarProveedorActionPerformed
+
+    private void jComboBoxApicultorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxApicultorKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.jCBProveedor.requestFocus();
+        }
+    }//GEN-LAST:event_jComboBoxApicultorKeyPressed
+
+    private void jCBProveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCBProveedorKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.jTFIdentificador.requestFocus();
+        }
+    }//GEN-LAST:event_jCBProveedorKeyPressed
+
+    private void jTFIdentificadorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFIdentificadorKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.jTFRemito.requestFocus();
+        }
+    }//GEN-LAST:event_jTFIdentificadorKeyPressed
+
+    private void jTFRemitoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFRemitoKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.jTFSenasa.requestFocus();
+        }
+    }//GEN-LAST:event_jTFRemitoKeyPressed
+
+    private void jTFSenasaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFSenasaKeyPressed
+      if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.jTFTara.requestFocus();
+        }
+    }//GEN-LAST:event_jTFSenasaKeyPressed
+
+    private void jTFTaraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFTaraKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.jTFBruto.requestFocus();
+        }
+    }//GEN-LAST:event_jTFTaraKeyPressed
+
+    private void jTFBrutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBrutoKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.jBAceptar.requestFocus();
+        }
+    }//GEN-LAST:event_jTFBrutoKeyPressed
+
+    private void jBAceptarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBAceptarKeyPressed
+       validarIngreso();
+
+        if (jRBNuevo.isSelected()) {
+            estadoTambor = "nuevo";
+        } else if (jRReacondicionado.isSelected()) {
+            estadoTambor = "reacondicionado";
+        } else if (jRGolpeado.isSelected()) {
+            estadoTambor = "golpeado";
+        } else if (jRCambio.isSelected()) {
+            estadoTambor = "cambio";
+        }
+
+        Proveedor provSel = (Proveedor) jCBProveedor.getSelectedItem();
+        Proveedor AcoSel = (Proveedor) jComboBoxApicultor.getSelectedItem();
+        float neto = 0;
+
+        if (provSel.getRazonSocial() != "") {
+            tamborSel.setIdProveedor(provSel);
+        }
+        if (AcoSel.getRazonSocial() != "") {
+            tamborSel.setAcopiador(AcoSel);
+        }
+        tamborSel.setSenasa(senasa);
+        float bruto = Float.parseFloat(jTFBruto.getText());
+        tamborSel.setBruto(bruto);
+        float tara = Float.parseFloat(jTFTara.getText());
+        tamborSel.setTara(tara);
+        neto = bruto - tara;
+        tamborSel.setNeto(neto);
+        tamborSel.setEstadoTambor(estadoTambor);
+        tamborSel.setObservaciones(jTAObservaciones.getText());
+        tamborSel.setIdentificador(jTFIdentificador.getText());
+
+        try {
+            controladorT.edit(tamborSel);
+            JOptionPane.showMessageDialog(null, "Tambor editado");
+            this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+
+        } catch (Exception ex) {
+            Logger.getLogger(jDialogTambores.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jBAceptarKeyPressed
 
     /**
      * @param args the command line arguments

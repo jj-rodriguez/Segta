@@ -55,11 +55,11 @@ FROM
      `descargas` descargas INNER JOIN `tambor` tambor ON descargas.`idDescargas` = tambor.`idDescarga`
      LEFT JOIN `color` color ON tambor.`idColor` = color.`idColor`
      INNER JOIN `proveedor` proveedor ON tambor.`idProveedor` = proveedor.`idProveedor`
-     INNER JOIN `proveedor` acopiador ON descargas.`idProveedor` = acopiador.`idProveedor`
+     INNER JOIN `proveedor` acopiador ON tambor.`acopiador` = acopiador.`idProveedor`
 
 WHERE
      descargas.`idDescargas` = $P{descarga}
- AND descargas.`idProveedor` = $P{prov}]]>
+ AND tambor.`acopiador` = $P{prov}]]>
 	</queryString>
 	<field name="neto_calidad" class="java.lang.Float"/>
 	<field name="neto_nocalidad" class="java.lang.Float"/>
@@ -249,8 +249,8 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descargas_numero}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement uuid="97ccbdcb-7f3d-4073-b64a-03fbe2d248d7" mode="Transparent" x="167" y="69" width="229" height="29" forecolor="#736343" backcolor="#FFFFFF"/>
+			<textField>
+				<reportElement uuid="d27926a0-c5bc-4dc9-84a7-6ea3912b4ff7" mode="Transparent" x="145" y="70" width="282" height="28" forecolor="#736343" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
 					<font fontName="Arial" size="14" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
