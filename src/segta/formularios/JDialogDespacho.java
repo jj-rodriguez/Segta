@@ -189,7 +189,7 @@ public class JDialogDespacho extends javax.swing.JDialog {
             lote.setRemito(jTextRemito.getText());
             lote.setCamion(jTextCamion.getText());
             controladorL.edit(lote);
-            JOptionPane.showMessageDialog(null, "Contenedor Despachado!");
+            JOptionPane.showMessageDialog(null, "Lote Despachado!");
             this.processWindowEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error al despachar el lote!", "Validación", JOptionPane.ERROR_MESSAGE);

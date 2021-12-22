@@ -424,7 +424,7 @@ public class JDialogLoteoContrato extends javax.swing.JDialog {
             new JDialogDatosLote(this, true,lote).setVisible(true);
             actualizarTablaLote();
         } else {
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un Contenedor", "Validación", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Lote", "Validación", JOptionPane.WARNING_MESSAGE);
           
         }
     }//GEN-LAST:event_jBDatosLotesActionPerformed
@@ -476,7 +476,7 @@ public class JDialogLoteoContrato extends javax.swing.JDialog {
                     }
                }
            } else{
-              JOptionPane.showMessageDialog(null, "No se puede eliminar ya que tiene Contenedores asociados", "Validación", JOptionPane.WARNING_MESSAGE); 
+              JOptionPane.showMessageDialog(null, "No se puede eliminar ya que tiene Lotes asociados", "Validación", JOptionPane.WARNING_MESSAGE); 
            }
         } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Item", "Validación", JOptionPane.WARNING_MESSAGE);
@@ -538,7 +538,7 @@ public class JDialogLoteoContrato extends javax.swing.JDialog {
             }
             
         }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un Contenedor", "Validación", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Lote", "Validación", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jBQaActionPerformed
 
@@ -564,11 +564,11 @@ public class JDialogLoteoContrato extends javax.swing.JDialog {
                     Logger.getLogger(jDialogDescargas.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
-                JOptionPane.showMessageDialog(null, "El Contenedor aún no se ha despachado", "Validación", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El Lote aún no se ha despachado", "Validación", JOptionPane.WARNING_MESSAGE);
             }
             
         }else{
-            JOptionPane.showMessageDialog(null, "Debe seleccionar un Contenedor", "Validación", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Lote", "Validación", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jBTraceActionPerformed
 private void actualizaLotes(){

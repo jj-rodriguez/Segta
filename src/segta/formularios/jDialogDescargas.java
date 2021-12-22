@@ -571,7 +571,6 @@ public class jDialogDescargas extends javax.swing.JDialog {
         descargasList.clear();
         descargasQuery = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT d FROM Descargas d ORDER BY d.idDescargas DESC");
         descargasList.addAll(descargasQuery.getResultList());
-//        jComboBoxApicultor.setSelectedIndex(0);
     }
 
     private void activarDatos() {
@@ -797,7 +796,11 @@ public class jDialogDescargas extends javax.swing.JDialog {
     }//GEN-LAST:event_jBImprimirTamboresActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
         de = descargasList.get(jTable1.getSelectedRow());
+        if(de.getTamborCollection().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Descarga sin finalizar o en proceso", "Validación", JOptionPane.WARNING_MESSAGE);
+        }
         this.jTFObsTambores.setText(de.getObsTambores());
 //        this.jComboBoxApicultor.setSelectedItem(de.getIdProveedor());
     }//GEN-LAST:event_jTable1MouseClicked

@@ -182,7 +182,7 @@ public class jDialogLotes extends javax.swing.JDialog {
         columnBinding.setColumnClass(Boolean.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cantLotes}"));
-        columnBinding.setColumnName("Contenedores");
+        columnBinding.setColumnName("Lotes");
         columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${maxTambores}"));

@@ -29,9 +29,12 @@ public class inicio extends javax.swing.JFrame {
      * Centra Componente en la pantalla
      */
     public inicio(Usuario u) {
+        
         user=u;
         initComponents();
+      
         centerComponent(this.jLabel1);
+        centerComponent(this.jLabel2);
         setearPermisos();
 //        this.setExtendedState(MAXIMIZED_BOTH);
         
@@ -42,15 +45,15 @@ public class inicio extends javax.swing.JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameSize = c.getSize();
 
-        if (frameSize.height > screenSize.height) {
-            frameSize.height = screenSize.height;
-        }
-
-        if (frameSize.width > screenSize.width) {
-            frameSize.width = screenSize.width;
-        }
-        c.setLocation((screenSize.width - frameSize.width) / 2,
-                (screenSize.height - frameSize.height) / 2);
+//        if (frameSize.height > screenSize.height) {
+//            frameSize.height = screenSize.height;
+//        }
+//
+//        if (frameSize.width > screenSize.width) {
+//            frameSize.width = screenSize.width;
+//        }
+c.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
+       
     }
     
     public void setearPermisos(){
@@ -404,7 +407,7 @@ public class inicio extends javax.swing.JFrame {
         });
         jMenuArchivo.add(jMenuItemList);
 
-        jMenuItemLotes.setText("Contenedores");
+        jMenuItemLotes.setText("Lotes");
         jMenuItemLotes.setEnabled(false);
         jMenuItemLotes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

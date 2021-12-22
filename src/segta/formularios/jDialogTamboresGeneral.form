@@ -118,6 +118,9 @@
           <ComponentRef name="SegTAPUEntityManager"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery(&quot;SELECT t FROM Tambor t Where t.estado != &apos;despachado&apos; ORDER BY t.numero&quot;)"/>
+      </AuxValues>
     </Component>
     <Component class="java.util.List" name="tamborList">
       <Properties>

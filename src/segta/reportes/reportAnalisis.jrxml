@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1c848d05-5a8b-4104-9c8a-b3e4ad4c887d">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="12"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -93,8 +93,8 @@ WHERE `analisis`.idAnalisis=$P{pAnalisis}]]>
 			</textField>
 			<staticText>
 				<reportElement uuid="516d96f8-6648-4bdc-9b4e-66e548f9c4ae" style="Column header" x="115" y="96" width="73" height="15" forecolor="#736343"/>
-				<textElement/>
-				<text><![CDATA[Contenedor:]]></text>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Lote:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="8ede0a7f-5772-46ab-bd76-f6eaf2bad69b" style="Detail" x="188" y="96" width="106" height="15"/>

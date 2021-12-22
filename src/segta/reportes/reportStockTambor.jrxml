@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="090883f1-1065-4c94-a3db-ac8f43a09179">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="57"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -69,7 +69,7 @@ GROUP BY nlote, contenedor]]>
 					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[LOTE]]></text>
+				<text><![CDATA[GRUPO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="f4517ad8-a2e1-4aef-b653-910ae56355af" mode="Transparent" x="198" y="1" width="174" height="15" forecolor="#736343" backcolor="#FFFFFF"/>
@@ -77,7 +77,7 @@ GROUP BY nlote, contenedor]]>
 					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[CONTENEDOR]]></text>
+				<text><![CDATA[LOTE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="f4517ad8-a2e1-4aef-b653-910ae56355af" mode="Transparent" x="372" y="0" width="180" height="15" forecolor="#736343" backcolor="#FFFFFF"/>

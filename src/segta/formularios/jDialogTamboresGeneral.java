@@ -89,7 +89,7 @@ public class jDialogTamboresGeneral extends javax.swing.JDialog {
         proveedorList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : proveedorQuery.getResultList();
         loteQuery = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT l FROM Lote l");
         loteList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : loteQuery.getResultList();
-        tamborQuery = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT t FROM Tambor t Where t.estado != 'despachado'");
+        tamborQuery = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT t FROM Tambor t Where t.estado != 'despachado' ORDER BY t.numero");
         tamborList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() :  org.jdesktop.observablecollections.ObservableCollections.observableList(tamborQuery.getResultList());
         proveedorQuery1 = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT p FROM Proveedor p");
         proveedorList1 = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : proveedorQuery1.getResultList();
@@ -714,6 +714,7 @@ public class jDialogTamboresGeneral extends javax.swing.JDialog {
                 } else {
                     JOptionPane.showMessageDialog(null, "Todos los tambores fueron modificados con éxito", "Validación", JOptionPane.INFORMATION_MESSAGE);
                 }
+            
             }
         } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un Tambor", "Validación", JOptionPane.WARNING_MESSAGE);
@@ -749,9 +750,7 @@ public class jDialogTamboresGeneral extends javax.swing.JDialog {
                         Logger.getLogger(jDialogTamboresGeneral.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            } else {
-                System.exit(0);
-            }
+            } 
             tamborList.clear();
             tamborList.addAll(tamborQuery.getResultList());
 
@@ -916,7 +915,7 @@ public class jDialogTamboresGeneral extends javax.swing.JDialog {
 
     private void jBCambiarProductor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCambiarProductor1ActionPerformed
 
-         if (this.jTableTambores.getSelectedRowCount() != 0) {
+        if (this.jTableTambores.getSelectedRowCount() != 0) {
             tambor.clear();
             for (int i = 0; i < jTableTambores.getRowCount(); i++) {
                 if (jTableTambores.isRowSelected(i)) {
@@ -935,8 +934,6 @@ public class jDialogTamboresGeneral extends javax.swing.JDialog {
                         Logger.getLogger(jDialogTamboresGeneral.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            } else {
-                System.exit(0);
             }
             tamborList.clear();
             tamborList.addAll(tamborQuery.getResultList());

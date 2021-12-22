@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportTamborSector" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="93fe0d5e-4c95-43b9-9d14-130b56541880">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="144"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -61,11 +61,11 @@ ORDER by lote]]>
 					</staticText>
 					<staticText>
 						<reportElement uuid="f104f62d-12be-45f8-9fc3-2cfa087b93ef" style="SubTitle" mode="Transparent" x="59" y="0" width="142" height="22" forecolor="#736343" backcolor="#FFFFFF"/>
-						<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
+						<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" markup="none">
 							<font fontName="Arial" size="18" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 							<paragraph lineSpacing="Single"/>
 						</textElement>
-						<text><![CDATA[CONTENEDOR:]]></text>
+						<text><![CDATA[LOTE:]]></text>
 					</staticText>
 					<textField>
 						<reportElement uuid="7865c50c-f6f6-4e4e-a57f-1a111495d2f2" mode="Transparent" x="502" y="0" width="75" height="24" forecolor="#736343" backcolor="#FFFFFF"/>
@@ -92,7 +92,7 @@ ORDER by lote]]>
 				<textElement verticalAlignment="Middle">
 					<font size="36" pdfFontName="Times-Roman"/>
 				</textElement>
-				<text><![CDATA[Tambores por contenedor]]></text>
+				<text><![CDATA[Tambores por Lote]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="f104f62d-12be-45f8-9fc3-2cfa087b93ef" style="SubTitle" x="422" y="48" width="69" height="22"/>

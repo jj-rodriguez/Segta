@@ -1097,7 +1097,7 @@ this.jComboBoxApicultor.requestFocus();
 
                 }
                 if (validacion) {
-                    JOptionPane.showMessageDialog(null, "Hay tambores que no se pudieron cambiar ya que se encontarban despachados o en contenedor", "Validación", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Hay tambores que no se pudieron cambiar ya que se encontarban despachados o en lote", "Validación", JOptionPane.WARNING_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "Todos los tambores fueron modificados con éxito", "Validación", JOptionPane.INFORMATION_MESSAGE);
                 }

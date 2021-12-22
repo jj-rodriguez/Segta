@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3b1be8a7-eb9f-47fb-9b3d-9b5a5274b284">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="143"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -65,10 +65,10 @@ Where tambor.idLote=$P{pLote}]]>
 		<band height="136" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="8eed7c2d-192d-49b3-9375-bb46d6d2d5ee" style="Title" x="141" y="0" width="411" height="62"/>
-				<textElement verticalAlignment="Middle">
+				<textElement verticalAlignment="Top">
 					<font size="36" pdfFontName="Times-Roman"/>
 				</textElement>
-				<text><![CDATA[Tambores por Contenedor]]></text>
+				<text><![CDATA[Tambores por Lote]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="acdd914d-4283-4f76-a444-9a1a95bf0cd9" style="SubTitle" x="508" y="62" width="44" height="22"/>
@@ -87,7 +87,7 @@ Where tambor.idLote=$P{pLote}]]>
 					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[CONTENEDOR:]]></text>
+				<text><![CDATA[LOTE:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="6258b60f-ac99-4814-a289-48f78bf6ca0c" style="Column header" x="143" y="84" width="53" height="15" forecolor="#736343"/>

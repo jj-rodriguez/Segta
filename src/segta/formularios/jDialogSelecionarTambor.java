@@ -135,7 +135,7 @@ public class jDialogSelecionarTambor extends javax.swing.JDialog {
         sectorList.add(0,s);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("AGREGAR TAMBORES AL CONTENEDOR");
+        setTitle("AGREGAR TAMBORES AL LOTE");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));

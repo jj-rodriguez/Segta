@@ -84,7 +84,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemLotes">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Contenedores"/>
+                <Property name="text" type="java.lang.String" value="Lotes"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
