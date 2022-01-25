@@ -827,7 +827,7 @@ public class jDialogTambores extends javax.swing.JDialog {
         tamborQuery1 = java.beans.Beans.isDesignTime() ? null : SegTAPUEntityManager.createQuery("SELECT t FROM Tambor t WHERE t.idDescarga =:descargaSel").setParameter("descargaSel", de);
         tamborList1.addAll(tamborQuery1.getResultList());
         this.jComboBoxApicultor.requestFocus();
-        jCBProveedor.setSelectedIndex(0);    
+        //jCBProveedor.setSelectedIndex(0);    
        
     }
 
